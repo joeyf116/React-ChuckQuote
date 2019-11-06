@@ -7,39 +7,38 @@ class Quote extends Component {
      };
 
      async componentDidMount() {
+         const category = this.props.match.params.category_name;
+
+
          this.getQuote();
      }
 
-     componentDidUpdate(prevProps) {
-         if (prevProps.category !== this.props.category) {
-             this.getQuote();
-         }
-     }
 
      getQuote = async () => {
-        const { category } = this.props;
+        const category = this.props.match.params.category_name;
+
         const data = await loadData(
             `https://api.chucknorris.io/jokes/random?category=${category}`
             ); 
         const quote = data.value;
+
          this.setState({
             quote
          })
      };
 
      handleClick = () => {
-        this.getQuote();
-        // this.getCategory();
+        this.getQuote(this.props.match.params.category_name);
      }
 
 
     render() { 
-        console.log(this.props);
         const { quote } = this.state;
+        const category = this.props.match.params.category_name;
         return (
             <>
                 <p>{quote}</p>
-                <button onClick={() => this.handleClick()}>Get another Quote</button>
+                <button onClick={() => this.handleClick()}>Get another Quote from the {category} category</button>
             </>
         );
     }
